@@ -5,7 +5,7 @@ type Book {
     _id: ID
     authors: [String]
     description: String
-    bookId: string
+    bookId: String
     image: String
     forSale: String
     link: String
@@ -19,7 +19,7 @@ type User {
     savedBooks: [Book]
 }
 type Query {
-    me: user
+    me: User
 }
 type Auth {
     token: ID!

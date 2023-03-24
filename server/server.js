@@ -12,13 +12,24 @@ const routes = require('./routes');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: authMiddleware,
-});
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+//   context: authMiddleware,
+// });
 
-server.applyMiddleware({ app });
+// server.applyMiddleware({ app });
+
+let server = null;
+async function startServer() {
+  server = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
+  await server.start();
+  server.applyMiddleware({ app });
+}
+startServer();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,7 +43,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../client/"));
 });
 
 // app.use(routes);
